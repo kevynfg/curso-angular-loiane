@@ -1,0 +1,27 @@
+<section>
+  <article>
+    <h3>Two-way data-binding</h3>
+    <div style="margin: 1.5rem;">
+      <!-- <input type="text"  
+      [value]="nome"
+      (keyup)="pegaValor($event)"
+      /> -->
+
+        <input type="text"  
+        [ngModel]="nome"
+        (ngModelChange)="nome = $event"
+        />
+
+        <input [(ngModel)]="nome">
+
+      <p>Você digitou: {{nome}}</p>
+    </div>
+    <br><br>
+    <p style="margin: 1.5rem;">Meu nome é {{pessoa.nome}} e tenho {{pessoa.idade}} anos de idade</p>
+
+    <div style="margin: 1.5rem;">
+      <input type="text" [(ngModel)]="pessoa.nome">
+      <input type="text" [(ngModel)]="pessoa.idade">
+    </div>
+  </article>
+</section>
