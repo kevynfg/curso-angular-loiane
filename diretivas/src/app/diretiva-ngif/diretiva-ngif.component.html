@@ -1,0 +1,20 @@
+<h5>*ngIf</h5>
+<div *ngIf="cursos.length == 0; else cursosVazio" >
+  Sem cursos atualmente
+</div>
+  <ng-template #cursosVazio>Lista de cursos aqui
+    <ul *ngFor="let curso of cursos">
+      <li>{{curso}}</li>
+    </ul>
+  </ng-template>
+  
+  <br> 
+
+  <div *ngIf="mostrarCursos">Alou</div>
+  <div *ngIf="!mostrarCursos">Tchau</div>
+  <br>
+  <button (click)="onMostrarCursos()">Mostrar ou esconder cursos</button>
+
+  <h5>Hidden como alternativa</h5>
+  <div [hidden]="!mostrarCursos">Hidden 1</div>
+  <div [hidden]="mostrarCursos">Hidden 2</div>
