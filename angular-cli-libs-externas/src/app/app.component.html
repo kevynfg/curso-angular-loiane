@@ -1,0 +1,17 @@
+<p *ngFor="let item of list">{{item}}</p>
+
+<ul class="nav">
+  <li class="nav-item">
+    <a class="nav-link " href="#">HTTP</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" router-link="/">Home</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link"  router-link="cursos">Cursos</a>
+  </li>
+</ul>
+
+<div>
+  <router-outlet></router-outlet>
+</div>
