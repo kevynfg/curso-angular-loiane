@@ -1,17 +1,16 @@
-import { R3TargetBinder } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-data-binding',
   templateUrl: './data-binding.component.html',
-  //styleUrls: ['./data-binding.component.css']
-  styles: [
-    `
-    .highlight {
-    font-size: 30px;
-  }
-    `
-  ]
+  styleUrls: ['./data-binding.component.css']
+  // styles: [
+  //   `
+  //   .highlight {
+  //   font-size: 30px;
+  // }
+  //   `
+  // ]
 })
 export class DataBindingComponent implements OnInit {
  

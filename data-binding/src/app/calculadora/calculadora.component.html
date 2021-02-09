@@ -1,0 +1,50 @@
+<div class="container">
+  <input id="input" type="text" [value]=inputNumber readonly />
+  <div class="calculadora">
+    <button class="button__calculadora" id="1" value="1" (click)="displayNumbers(button1.value)" #button1>
+      1
+    </button>
+    <button class="button__calculadora" id="2" value="2" (click)="displayNumbers(button2.value)" #button2>
+      2
+    </button>
+    <button class="button__calculadora" id="3" value="3" (click)="displayNumbers(button3.value)" #button3>
+      3
+    </button>
+    <button class="button__calculadora" id="4" value="4" (click)="displayNumbers(button4.value)" #button4>
+      4
+    </button>
+    <button class="button__calculadora" id="5" value="5" (click)="displayNumbers(button5.value)" #button5>
+      5
+    </button>
+    <button class="button__calculadora" id="6" value="6" (click)="displayNumbers(button6.value)" #button6>
+      6
+    </button>
+    <button class="button__calculadora" id="7" value="7" (click)="displayNumbers(button7.value)" #button7>
+      7
+    </button>
+    <button class="button__calculadora" id="8" value="8" (click)="displayNumbers(button8.value)" #button8>
+      8
+    </button>
+    <button class="button__calculadora" id="9" value="9" (click)="displayNumbers(button9.value)" #button9>
+      9
+    </button>
+    <button class="button__calculadora" id="comma" #buttonComma>
+      ,
+    </button>
+    <button class="button__calculadora" id="0" value="0" (click)="displayNumbers(button0.value)" #button0>
+      0
+    </button>
+    <button class="button__calculadora" id="result" (click)="sumValues()"#buttonResult>
+      =
+    </button>
+    <button class="button__calculadora" id="minus" (click)="minusOperation()">
+      -
+    </button>
+    <button class="button__calculadora" id="clear">
+      C
+    </button>
+    <button class="button__calculadora" id="plus" (click)="plusOperation()">
+      +
+    </button>
+  </div>
+</div>
