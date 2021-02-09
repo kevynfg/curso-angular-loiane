@@ -36,33 +36,26 @@ export class CalculadoraComponent implements OnInit, AfterContentChecked, OnDest
   }
 
   sumValues() {
-    let timer = 0
     if(this.inputNumber.includes('-')) {
       const newValue = this.inputNumber.replace(/-/g, '')
       const sumValue:any[] = newValue.split(' ').filter((item => item))
       const result = sumValue[0] - sumValue[1]
       this.inputNumber = String( result)
-      if (timer) {
-        clearTimeout(timer)
-      }
-      setTimeout(() => {
-        this.inputNumber = ''
-      }, 3000);
       console.log(this.inputNumber)
     } else {
+
+      //TROCAR ISTO POR UM REDUCE OU SUM()
       const newValue = this.inputNumber.replace(/\+/g, '')
       const sumValue:any[] = newValue.split(' ').filter((item => item))
       const result = Number(sumValue[0]) + Number(sumValue[1])
       console.log(sumValue)
       this.inputNumber = String(result)
-      if (timer) {
-        clearTimeout(timer)
-      }
-      setTimeout(() => {
-        this.inputNumber = ''
-      }, 3000);
       console.log(this.inputNumber)
     }
+  }
+
+  clearValues() {
+    this.inputNumber = ''
   }
 
   constructor() { }
