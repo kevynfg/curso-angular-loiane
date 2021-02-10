@@ -12,11 +12,12 @@ export class FundoAmareloDirective {
 
   // @HostBinding('style.backgroundColor') backgroundColor:any;
 
-  @HostBinding('style.backgroundCOlor') get setColor() {
+  //Método TypeScript
+  @HostBinding('style.backgroundColor') get setColor() {
     return this.backgroundColor = this.changeColor();
   }
   private backgroundColor: string
-
+  
   constructor(private _elementRef: ElementRef, private _renderer: Renderer2) {
     // console.log(this._elementRef)
   //   this._elementRef
@@ -24,7 +25,6 @@ export class FundoAmareloDirective {
   //   .style
   //   .backgroundColor = 'yellow';
   //  }
-  
   this._renderer.setStyle(this._elementRef.nativeElement,
      'background-color', 'yellow')
   }
