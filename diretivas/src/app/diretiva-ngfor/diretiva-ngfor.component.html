@@ -2,3 +2,13 @@
 <ul>
   <li *ngFor="let curso of cursos; index as i"> {{curso}} {{i + 1}}/3 </li>
 </ul>
+
+<h5>Removendo * da diretiva</h5>
+
+<ul>
+  <ng-template ngFor [ngForOf]="cursos" let-curso let-i="index">
+    <li>
+      {{i + 1}} - {{ curso }}
+    </li>
+  </ng-template>
+</ul>
