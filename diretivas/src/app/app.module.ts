@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {FormGroup} from '@angular/forms'
+import {FormsModule} from '@angular/forms'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,6 +8,10 @@ import { TesteComponent } from './teste/teste.component';
 import { DiretivaNgifComponent } from './diretiva-ngif/diretiva-ngif.component';
 import { DiretivaNgswitchComponent } from './diretiva-ngswitch/diretiva-ngswitch.component';
 import { DiretivaNgforComponent } from './diretiva-ngfor/diretiva-ngfor.component';
+import { DiretivaNgclassComponent } from './diretiva-ngclass/diretiva-ngclass.component';
+import { DiretivaNgstyleComponent } from './diretiva-ngstyle/diretiva-ngstyle.component';
+import { OperadorElvisComponent } from './operador-elvis/operador-elvis.component';
+import { ExemploNgContentComponent } from './exemplo-ng-content/exemplo-ng-content.component';
 
 @NgModule({
   declarations: [
@@ -15,11 +19,16 @@ import { DiretivaNgforComponent } from './diretiva-ngfor/diretiva-ngfor.componen
     TesteComponent,
     DiretivaNgifComponent,
     DiretivaNgswitchComponent,
-    DiretivaNgforComponent
+    DiretivaNgforComponent,
+    DiretivaNgclassComponent,
+    DiretivaNgstyleComponent,
+    OperadorElvisComponent,
+    ExemploNgContentComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
