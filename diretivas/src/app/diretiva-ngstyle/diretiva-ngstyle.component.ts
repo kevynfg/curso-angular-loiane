@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-diretiva-ngstyle',
   templateUrl: './diretiva-ngstyle.component.html',
-  styleUrls: ['./diretiva-ngstyle.component.scss']
+  styleUrls: ['./diretiva-ngstyle.component.css']
 })
 export class DiretivaNgstyleComponent implements OnInit {
 
@@ -12,10 +12,11 @@ export class DiretivaNgstyleComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
-  mudarAtivo() {
-    this.ativo = !this.ativo
+  mudarAtivo(){
+    this.ativo = !this.ativo;
   }
+
 }

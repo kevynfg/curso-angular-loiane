@@ -1,26 +1,33 @@
 <nav class="navbar navbar-dark bg-primary">
   <div class="nav navbar-nav">
-    <a class="nav-item nav-link" (click)="tab = 'home'" [class.active]="tab == 'home'">Home</a>
-    <a class="nav-item nav-link" (click)="tab = 'mapa'" [class.active]="tab == 'mapa'">Mapa</a>
-    <a class="nav-item nav-link" (click)="tab = 'lista'" [class.active]="tab == 'lista'">Lista</a>
+    <a class="nav-item nav-link"
+       [class.active]="aba == 'home'"
+       (click)="aba = 'home'">Home</a>
+    <a class="nav-item nav-link"
+      [class.active]="aba == 'mapa'"
+      (click)="aba = 'mapa'">Mapa</a>
+    <a class="nav-item nav-link"
+    [class.active]="aba == 'lista'"
+    (click)="aba = 'lista'">Lista</a>
   </div>
 </nav>
 
-<div class="container" [ngSwitch]="tab">
-  <p *ngSwitchCase="'mapa'">Você entrou no Mapa</p>
-  <p *ngSwitchCase="'lista'">Você entrou na Lista</p>
-  <p *ngSwitchDefault="'home'">Você está na Home</p>
+<div class="container" [ngSwitch]="aba"  >
+  <p *ngSwitchCase="'mapa'">Modo Mapa ativado</p>
+  <p *ngSwitchCase="'lista'">Modo Lista ativado</p>
+  <p *ngSwitchDefault>Home</p>
 </div>
 
-<h5>Removendo * da diretiva</h5>
-<div class="container" [ngSwitch]="tab">
+<h5>Removendo o * e usando template</h5>
+
+<div class="container" [ngSwitch]="aba"  >
   <ng-template [ngSwitchCase]="'mapa'">
-    <p>Você entrou no Mapa</p>
+    <p>Modo Mapa ativado</p>
   </ng-template>
   <ng-template [ngSwitchCase]="'lista'">
-    <p>Você entrou na Lista</p>
+    <p>Modo Lista ativado</p>
   </ng-template>
   <ng-template [ngSwitchCase]="'home'" ngSwitchDefault>
-    <p>Você está na Home</p>
+    <p>Home</p>
   </ng-template>
 </div>
