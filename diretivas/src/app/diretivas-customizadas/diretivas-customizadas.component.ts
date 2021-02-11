@@ -5,9 +5,21 @@ import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
   styleUrls: ['./diretivas-customizadas.component.css']
 })
 export class DiretivasCustomizadasComponent implements OnInit {
+  
+  mostrarCursos: boolean = false;
+  mostrarMsg: boolean = false;
+
   constructor() {
    }
   ngOnInit(): void {
+  }
+
+  onMostrarCursos() {
+    this.mostrarCursos = !this.mostrarCursos
+  }
+
+  onMostrarMsg(){
+    this.mostrarMsg = !this.mostrarMsg
   }
 
 

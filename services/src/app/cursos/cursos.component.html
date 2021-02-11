@@ -1,0 +1,9 @@
+<h5>Lista de Cursos</h5>
+
+<ul>
+  <li *ngFor="let curso of cursos, index as i">
+    {{curso}} {{i + 1}}/{{cursos.length}}
+  </li>
+</ul>
+
+<input type="text" [(ngModel)]="novoCurso" (keyup.enter)="salvarCurso(novoCurso)"/>

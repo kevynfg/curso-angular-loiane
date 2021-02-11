@@ -4,3 +4,16 @@
 <br>
 <p highlightMouse>Texto com highlight quando passo o mouse.</p>
 <p [highlight]="'red'" [defaultColor]="'grey'">Texto com highlight com cores customizadas.</p>
+<br>
+<div *ngIf="mostrarCursos" >
+  Lista de cursos aqui.
+</div>
+<div *ngElse="mostrarCursos" >
+  Não existem cursos para serem listados.
+</div>
+
+<p *showMsg="mostrarMsg">Oi</p>
+<p *showMsg="!mostrarMsg">Tchau</p>
+
+<button (click)="onMostrarMsg()">Mostrar mensagem</button>
+<button (click)="onMostrarCursos()">Mostrar ou esconder cursos</button>

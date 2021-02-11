@@ -5,18 +5,18 @@ import { Directive, HostBinding, ElementRef, Renderer2, HostListener } from '@an
 })
 export class FundoAmareloDirective {
 
-  // @HostListener('mouseover') onMouseOver() {
-  //   // this._renderer.setStyle(this._elementRef, 'background-color', this.changeColor());
-  //   this.backgroundColor = this.changeColor()
-  // }
+  @HostListener('mouseover') onMouseOver() {
+    // this._renderer.setStyle(this._elementRef, 'background-color', this.changeColor());
+    this.backgroundColor = this.changeColor()
+  }
 
-  // @HostBinding('style.backgroundColor') backgroundColor:any;
+  @HostBinding('style.backgroundColor') backgroundColor:any;
 
   //Método TypeScript
-  @HostBinding('style.backgroundColor') get setColor() {
-    return this.backgroundColor = this.changeColor();
-  }
-  private backgroundColor: string
+  // @HostBinding('style.backgroundClor') get setColor() {
+  //   return this.backgroundColor = this.changeColor();
+  // }
+  // private backgroundColor: string
   
   constructor(private _elementRef: ElementRef, private _renderer: Renderer2) {
     // console.log(this._elementRef)
