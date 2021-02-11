@@ -1,0 +1,12 @@
+<h5>Compartilhando um serviço entre components</h5>
+
+<ul>
+  <li *ngFor="let curso of cursos, index as i">
+    {{curso}} {{i + 1}}/{{cursos.length}}
+  </li>
+</ul>
+
+<input type="text" #inputCurso/>
+<button (click)="salvarCurso(inputCurso.value)">Adicionar Curso</button>
+
+<app-receber-curso-criado></app-receber-curso-criado>
