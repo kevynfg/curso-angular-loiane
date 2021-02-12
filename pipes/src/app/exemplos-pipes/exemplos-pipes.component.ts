@@ -45,9 +45,6 @@ export class ExemplosPipesComponent implements OnInit {
     })
   }
 
- 
-  
-
   constructor() { }
 
   ngOnInit(): void {
