@@ -5,18 +5,14 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FiltroArrayPipe implements PipeTransform {
 
-  transform(value: any, ...args: any): any {
-  //   if(value.length === 0 || args === undefined){
-  //     return value;
-  //   }
+  transform(value: any, ...args: any[]): any {
+    if(value.length === 0 || args === undefined){
+      return value;
+    }
 
-  //   let filter = args.toLocaleLowerCase();
-  //   return value.filter((item:any) => {
-  //     item.toLowerCase().indexOf(filter) != -1;
-  //   })
-  // }
-
-    
-
+    let filter = args.toLocaleString()
+    return value.filter((item:any) => {
+      item.toLowerCase().indexOf(filter) != -1;
+    })
   }
 }

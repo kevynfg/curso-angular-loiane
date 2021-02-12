@@ -7,15 +7,30 @@
 <p>Data Lançamento: {{livro.dataLancamento | date}}</p>
 <p>Url: <a href="{{livro.url}}">{{livro.url}}</a></p>
 <br>
-<p>Livro: {{livro}}</p>
-<br>
-<!-- <input type="text" [(ngModel)]="filter"> -->
-<br>
+<p>Livro: {{livro | json}}</p>
+
+<input type="text" [(ngModel)]="filter">
 <input type="text" #newValue>
 <button (click)="addCurso(newValue.value)">Add</button>
 
+<h5>Pipe Puro</h5>
 <ul>
-  <li *ngFor="let book of livros | filtroArray:filter">
+  <li *ngFor="let book of livros | filtroArray: filter">
+    {{book}}
+  </li>
+</ul>
+
+<h5>Filtro Impuro</h5>
+<ul>
+  <li *ngFor="let book of livros | filtroArrayImpuro: filter">
+    {{book}}
+  </li>
+</ul>
+
+<h5>Maneira correta de usar filtro nos projetos</h5>
+
+<ul>
+  <li *ngFor="let book of obterCursos()">
     {{book}}
   </li>
 </ul>

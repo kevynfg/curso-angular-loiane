@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-exemplos-pipes',
@@ -17,18 +17,32 @@ export class ExemplosPipesComponent implements OnInit {
   }
 
   livros: string[] = [
-    'Angular 2', 'JavaScript'
+    'Angular 2', 'JavaScript', 'C#'
   ]
 
-  filter:string = ''
+  @Input('ngModel') filter:string = ''
 
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.livros)
   }
 
   addCurso(value:string) {
     this.livros.push(value)
+  }
+
+  obterCursos(){
+    if(this.livros.length === 0 || this.filter === undefined ||
+      this.filter.trim() === '') {
+        return this.livros
+      }
+      return this.livros.filter((item:any) => {
+      if(item.toLowerCase().indexOf(this.filter.toLowerCase()) != -1) {
+        return true;
+      }
+      return false
+    })
   }
 
 }
