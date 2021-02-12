@@ -15,4 +15,6 @@ export class FiltroArrayPipe implements PipeTransform {
       item.toLowerCase().indexOf(filter) != -1;
     })
   }
+
+ 
 }
