@@ -8,8 +8,6 @@ import { Component, Input, OnInit, Output, AfterContentChecked, OnDestroy, OnCha
 export class CalculadoraComponent implements OnInit, AfterContentChecked, OnDestroy, OnChanges {
   @Input() inputNumber: string = ''
 
-  @Output() buttonNumbers: string = ''
-
   firstValueSaved: number = 0
   secondValueSaved: number = 0
 
@@ -38,9 +36,9 @@ export class CalculadoraComponent implements OnInit, AfterContentChecked, OnDest
   sumValues() {
     if(this.inputNumber.includes('-')) {
       const newValue = this.inputNumber.replace(/-/g, '')
-      const sumValue:any[] = newValue.split(' ').filter((item => item))
+      const sumValue:any[] = newValue.split(' ').filter(item => item)
       const result = sumValue[0] - sumValue[1]
-      this.inputNumber = String( result)
+      this.inputNumber = String(result)
       console.log(this.inputNumber)
     } else {
 
