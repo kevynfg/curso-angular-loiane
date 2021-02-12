@@ -8,3 +8,14 @@
 <p>Url: <a href="{{livro.url}}">{{livro.url}}</a></p>
 <br>
 <p>Livro: {{livro}}</p>
+<br>
+<!-- <input type="text" [(ngModel)]="filter"> -->
+<br>
+<input type="text" #newValue>
+<button (click)="addCurso(newValue.value)">Add</button>
+
+<ul>
+  <li *ngFor="let book of livros | filtroArray:filter">
+    {{book}}
+  </li>
+</ul>
