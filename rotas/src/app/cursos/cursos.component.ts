@@ -23,6 +23,7 @@ export class CursosComponent implements OnInit {
       (queryParams: any) => {
         this.pagina = queryParams['pagina'];
     });
+    console.log('Inscrição', this.inscricao)
   }
 
   proxPagina() {
