@@ -6,11 +6,13 @@ import { AlunoFormularioComponent } from './aluno-formulario/aluno-formulario.co
 import { AlunosRoutingModule } from './alunos.routing.module';
 import { AlunoDetalheComponent } from './aluno-detalhe/aluno-detalhe.component';
 import { AlunosService } from './alunos.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
-    AlunosRoutingModule
+    AlunosRoutingModule,
+    FormsModule
   ],
   exports: [],
   declarations: [
