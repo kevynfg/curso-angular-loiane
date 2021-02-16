@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { AlunoFormularioComponent } from '../alunos/aluno-formulario/aluno-formulario.component';
+// import { AlunoFormularioComponent } from '../alunos/aluno-formulario/aluno-formulario.component';
 import { IFormCanDeactivate } from './forme-candeactivate';
 
 @Injectable({
