@@ -14,12 +14,14 @@ import { CursosGuard } from './guards/cursos.guard';
 import { AlunosGuard } from './guards/alunos.guard';
 import { AlunosDeactivateGuard } from './guards/alunos-deactivate.guard';
 import { AlunoDetalheComponent } from './alunos/aluno-detalhe/aluno-detalhe.component';
+import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao-encontrada.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
+    PaginaNaoEncontradaComponent,
   ],
   imports: [
     BrowserModule,

@@ -34,7 +34,8 @@ export class AlunoFormularioComponent implements OnInit, IFormCanDeactivate {
     this.inscricao = this.route.data.subscribe(
       (info) => {
         console.log('Recebendo obj de aluno em resolver')
-        this.aluno = info.aluno
+        console.log('info', info)
+        this.aluno = info.aluno;
       })
   }
   ngOnDestroy() {
