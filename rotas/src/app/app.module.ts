@@ -13,6 +13,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { CursosGuard } from './guards/cursos.guard';
 import { AlunosGuard } from './guards/alunos.guard';
 import { AlunosDeactivateGuard } from './guards/alunos-deactivate.guard';
+import { AlunoDetalheComponent } from './alunos/aluno-detalhe/aluno-detalhe.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { AlunosDeactivateGuard } from './guards/alunos-deactivate.guard';
     AppRoutingModule,
     BrowserAnimationsModule,
   ],
-  providers: [AuthService, AuthGuard, CursosGuard, AlunosGuard, AlunosDeactivateGuard],
+  providers: [AuthService, AuthGuard, CursosGuard, AlunosGuard, AlunosDeactivateGuard,
+  AlunoDetalheComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

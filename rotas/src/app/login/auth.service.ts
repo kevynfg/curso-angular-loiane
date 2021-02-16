@@ -28,7 +28,6 @@ export class AuthService {
         }
       }
       if(logged) {
-      console.log('Loguei')
       this.userAuth = true;
 
       this.showMenuEmitter.emit(true)

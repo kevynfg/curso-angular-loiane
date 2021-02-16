@@ -6,6 +6,7 @@ import { AlunosGuard } from '../guards/alunos.guard';
 import { AlunoDetalheComponent } from './aluno-detalhe/aluno-detalhe.component';
 import { AlunoFormularioComponent } from './aluno-formulario/aluno-formulario.component';
 import { AlunosComponent } from './alunos.component';
+import { AlunoDetalheResolver } from './guards/aluno-detalhe.resolver';
 
 const alunosRoutes =[
   {
@@ -16,7 +17,8 @@ const alunosRoutes =[
         path: 'novo', component: AlunoFormularioComponent 
       },
       {
-        path: ':id', component: AlunoDetalheComponent 
+        path: ':id', component: AlunoDetalheComponent,
+        resolve: { aluno: AlunoDetalheResolver }
       },
       {
         path: ':id/editar', component: AlunoFormularioComponent,
