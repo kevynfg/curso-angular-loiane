@@ -1,7 +1,5 @@
-import { Injectable, Output } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import * as EventEmitter from 'events';
-import { Observable, Subscriber } from 'rxjs';
 import { User } from './user';
 
 @Injectable({
@@ -10,22 +8,39 @@ import { User } from './user';
 export class AuthService {
 
   userAuth: boolean = false;
-  @Output() showMenuEmitter = new EventEmitter()
+  showMenuEmitter = new EventEmitter(false)
+  private Users:any[] = [
+    {name: 'Kevyn', password: '123456'},
+    {name: 'Mary', password: '123456'}
+  ] 
 
-
-  constructor(private router: Router,) { }
+  constructor(private router: Router,
+    ) { }
 
   userLogIn(user: User) {
-    if(user.name == 'user@email.com' &&
-    user.password == '123456') {
+      let logged = false
+      if(user) {
+        for(let usuario of this.Users) {
+          if(usuario.name == user.name) {
+            console.log('Usuário logado: ', usuario.name)
+            logged = true;
+          }
+        }
+      }
+      if(logged) {
+      console.log('Loguei')
       this.userAuth = true;
 
-      this.showMenuEmitter.emit({mostrar: 'mudou'})
+      this.showMenuEmitter.emit(true)
 
       this.router.navigate(['/cursos'])
     } else {
       this.userAuth = false;
       this.router.navigate(['/'])
     }
+  }
+
+  userAuthenticated() {
+    return this.userAuth
   }
 }

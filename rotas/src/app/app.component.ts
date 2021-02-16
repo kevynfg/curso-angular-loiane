@@ -11,13 +11,12 @@ export class AppComponent {
 
   showMenu:boolean = false;
 
-  constructor(private autService: AuthService) {
+  constructor(private authService: AuthService) {
 
   }
 
   ngOnInit() {
-    if(this.autService.showMenuEmitter.on('true')) {
-
-    }
+    this.authService.showMenuEmitter.subscribe(
+      (show) => this.showMenu = show)
   }
 }
