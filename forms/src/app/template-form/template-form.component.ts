@@ -13,7 +13,9 @@ export class TemplateFormComponent implements OnInit {
     email: null
   };
 
-  onSubmit(formulario: { value: any; form: { reset: () => void; }; }) {
+  onSubmit(formulario: { value: any; form: 
+    { reset: () => void; 
+    } }) {
     console.log(formulario);
 
     // form.value
@@ -46,12 +48,20 @@ export class TemplateFormComponent implements OnInit {
 
   findCEP(cep:any, form:any) {
     // Nova variável "cep" somente com dígitos.
-    cep = cep.replace(/\D/g, '');
+    let newCep = cep.target.value
+    console.log('cep', newCep)
+    newCep = newCep.replace(/\D/g, '');
 
-    if (cep != null && cep !== '') {
-      cep.consultaCEP(cep)
-      .subscribe((dados: any) => this.fillDataFields(dados, form));
+    if (newCep !== '') {
+      const validacep = /^[0-9]{8}$/;
+      
+      if(validacep.test(newCep)) {
+        this.resetDataForm(form);
+        return this.http.get(`//viacep.com.br/ws/${newCep}/json`)
+        .subscribe((dados: any) => this.fillDataFields(dados, form));
+      }
     }
+    return null
   }
 
   fillDataFields(dados:any, formulario:any) {
@@ -80,10 +90,10 @@ export class TemplateFormComponent implements OnInit {
       }
     });
 
-    // console.log(form);
+    console.log('formulario', formulario);
   }
 
-  resetaDadosForm(formulario:any) {
+  resetDataForm(formulario:any) {
     formulario.form.patchValue({
       endereco: {
         rua: null,

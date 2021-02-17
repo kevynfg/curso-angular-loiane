@@ -91,7 +91,7 @@
     <div class="col-md-5" [ngClass]="applyCssError(bairro)">
       <label for="bairro" class="control-label">Bairro</label>
       <input type="text" class="form-control" id="bairro" 
-        name="bairro" ngModel required #bairro="ngModel">
+        name="bairro" ngModel #bairro="ngModel" required>
       <app-campo-control-error 
         [showError]="verifyValidTouched(bairro)" 
         errorMessage="Bairro é obrigatório.">
