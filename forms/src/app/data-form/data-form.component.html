@@ -1,1 +1,36 @@
-<p>data-form works!</p>
+<form class="form-horizontal" [formGroup]="useformGroup" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+
+    <div class="col-sm-12">
+      <label for="name" class="control-label">Name</label>
+    </div>
+
+    <div class="col-sm-12">
+      <input type="text" class="form-control" formControlName="name" 
+        id="name" placeholder="name">
+     </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-12">
+      <label for="email" class="control-label">Email</label>
+    </div>
+    <div class="col-sm-12">
+      <input type="email" class="form-control" formControlName="email"
+        id="email" placeholder="name@email.com" >
+    </div>
+  </div>
+<button type="submit" class="btn btn-primary">
+  Submit
+</button>
+<button type="submit" class="btn btn-primary" (click)="reset()">
+  Cancelar
+</button>
+<p>
+  Form Status: {{useformGroup.value | json}}
+</p>
+<p>
+  Form Status: {{useformGroup.status}}
+</p>
+  <!-- <app-form-debug [form]="useformGroup"></app-form-debug> -->
+</form>
