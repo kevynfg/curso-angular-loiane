@@ -32,7 +32,7 @@ export class AuthService {
 
       this.showMenuEmitter.emit(true)
 
-      this.router.navigate(['/cursos'])
+      this.router.navigate(['/home'])
     } else {
       this.userAuth = false;
       this.router.navigate(['/'])
