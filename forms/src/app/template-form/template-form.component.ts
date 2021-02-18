@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ConsultaCepService } from '../shared/services/consulta-cep.service';
 
 @Component({
   selector: 'app-template-form',
@@ -13,8 +14,8 @@ export class TemplateFormComponent implements OnInit {
     email: null
   };
 
-  onSubmit(formulario: { value: any; form: 
-    { reset: () => void; 
+  onSubmit(formulario: { value: any; form:
+    { reset: () => void;
     } }) {
     console.log(formulario);
 
@@ -30,6 +31,7 @@ export class TemplateFormComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
+    private cepService: ConsultaCepService
   ) { }
 
   ngOnInit() {
@@ -46,22 +48,13 @@ export class TemplateFormComponent implements OnInit {
     };
   }
 
-  findCEP(cep:any, form:any) {
-    // Nova variável "cep" somente com dígitos.
-    let newCep = cep.target.value
-    console.log('cep', newCep)
-    newCep = newCep.replace(/\D/g, '');
+  findCEP(cep: any, form: any): any {
+    cep = cep.replace(/\D/g, '');
 
-    if (newCep !== '') {
-      const validacep = /^[0-9]{8}$/;
-      
-      if(validacep.test(newCep)) {
-        this.resetDataForm(form);
-        return this.http.get(`//viacep.com.br/ws/${newCep}/json`)
+    if (cep !== '' && cep !== '') {
+        return this.http.get(`//viacep.com.br/ws/${cep}/json`)
         .subscribe((dados: any) => this.fillDataFields(dados, form));
-      }
     }
-    return null
   }
 
   fillDataFields(dados:any, formulario:any) {

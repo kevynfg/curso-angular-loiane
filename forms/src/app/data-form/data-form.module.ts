@@ -5,6 +5,7 @@ import { DataFormComponent } from '../data-form/data-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
+import { ConsultaCepService } from '../shared/services/consulta-cep.service';
 
 @NgModule({
   declarations: [
@@ -15,8 +16,9 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     FormsModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
   ],
+  providers: [ConsultaCepService],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,
     NO_ERRORS_SCHEMA

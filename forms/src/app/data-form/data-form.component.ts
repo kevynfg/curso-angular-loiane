@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
+import { StatesBr } from '../shared/models/states';
+import { ConsultaCepService } from '../shared/services/consulta-cep.service';
+import { DropdownService } from '../shared/services/dropdown.service';
 
 @Component({
   selector: 'app-data-form',
@@ -10,11 +13,16 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class DataFormComponent implements OnInit {
 
   useformGroup!: FormGroup;
+  states!: StatesBr[];
 
   constructor(private formBuilder: FormBuilder,
-    private http: HttpClient ) { }
-
+              private http: HttpClient,
+              private dropdownService: DropdownService,
+              private cepService: ConsultaCepService) { }
   ngOnInit(): void {
+
+    this.dropdownService.getBrazilStates()
+    .then((item: object) => console.log(item));
     // this.formGroup = new FormGroup({
     //   name: new FormControl(null),
     //   password: new FormControl(null),
@@ -26,73 +34,75 @@ export class DataFormComponent implements OnInit {
          Validators.minLength(3),
           Validators.maxLength(20)]],
       email: [null, [Validators.required, Validators.email]],
-      
       endereco: this.formBuilder.group({
-      cep: [null, Validators.required],
-      numero: [null, Validators.required],
-      complemento: [null],
-      rua: [null, Validators.required],
-      bairro: [null, Validators.required],
-      cidade: [null, Validators.required],
-      estado: [null, Validators.required]
+        cep: [null, Validators.required],
+        numero: [null, Validators.required],
+        complemento: [null],
+        rua: [null, Validators.required],
+        bairro: [null, Validators.required],
+        cidade: [null, Validators.required],
+        estado: [null, Validators.required]
       })
-    })
+    });
   }
 
-  onSubmit() {
+  onSubmit(): void {
+    if (this.useformGroup.valid){
       this.http.post('https://httpbin.org/post', JSON.stringify(this.useformGroup.value))
       .subscribe(dados => {
         console.log(dados);
-        //reseta o form
+        // reseta o form
         this.reset();
       }, (error) => {
-        alert('Deu ruim!!')
-        console.log(error)
+        alert('Deu ruim!!');
+        console.log(error);
       });
+    } else {
+      console.log('did not submit');
+      this.verifyFormValidations(this.useformGroup);
     }
+  }
 
-  reset() {
-    this.useformGroup.reset()
-  }  
+  verifyFormValidations(form: FormGroup): void {
+    Object.keys(form.controls)
+      .forEach((formField) => {
+        const control = form.get(formField);
+        control?.markAsDirty();
+        console.log('Dentro da raíz do form', control);
+        if (control instanceof FormGroup) {
+          // Essa recursividade é para percorrer todos os campos do form
+          // até dentro de aninhamentos que tem um objeto dentro de outro objeto
+          this.verifyFormValidations(control);
+          console.log('Entrou em endereço', control);
+        }
+      });
+  }
 
-  applyCssError(element: string) {
+  reset(): void {
+    this.useformGroup.reset();
+  }
+
+  applyCssError(element: string): boolean | any {
     return {
       'has-error': this.verifyValidTouched(element),
       'has-feedback': this.verifyValidTouched(element)
     };
   }
 
-  verifyValidTouched(element:string) {
-    return this.useformGroup.get(element)?.valid && this.useformGroup.get(element)?.touched;
+  verifyValidTouched(element: string): boolean | any {
+    return this.useformGroup.get(element)?.valid &&
+     this.useformGroup.get(element)?.touched ||
+      this.useformGroup.get(element)?.dirty;
   }
 
-  verifyInvalidEmail(){
-    let emailElement = this.useformGroup.get('email')
-    if(emailElement?.errors){
-      return emailElement.errors['email'] && emailElement.touched
+  verifyInvalidEmail(): boolean | any{
+    const emailElement = this.useformGroup.get('email');
+    if (emailElement?.errors){
+      return emailElement.errors['email'] && emailElement.touched;
     }
   }
 
-  findCEP() {
-    // Nova variável "cep" somente com dígitos.
-    let cep = this.useformGroup.get('endereco.cep')?.value;
-
-    console.log('cep', cep)
-    cep = cep.replace(/\D/g, '');
-
-    if (cep !== '') {
-      const validacep = /^[0-9]{8}$/;
-      
-      if(validacep.test(cep)) {
-        this.resetDataForm();
-        return this.http.get(`//viacep.com.br/ws/${cep}/json`)
-        .subscribe((data: any) => this.fillDataFields(data));
-      }
-    }
-    return null
-  }
-
-  fillDataFields(data:any){
+  fillDataFields(data: any): any{
     this.useformGroup.patchValue({
       endereco: {
         rua: data.logradouro,
@@ -104,11 +114,21 @@ export class DataFormComponent implements OnInit {
       }
     });
 
-    this.useformGroup.get('name')?.setValue('Kevyn')
+    this.useformGroup.get('name')?.setValue('Kevyn');
 
   }
 
-  resetDataForm() {
+  findCEP(cep: any): any {
+    // Nova variável "cep" somente com dígitos.
+    cep = this.useformGroup.get('endereco.cep')?.value;
+
+    if (cep !== '' && cep != null) {
+      this.cepService.findCEP(cep)
+      .subscribe((dados: any) => this.fillDataFields(dados))
+    }
+  }
+
+  resetDataForm(): void {
     this.useformGroup.patchValue({
       endereco: {
         rua: null,

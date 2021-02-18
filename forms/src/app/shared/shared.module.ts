@@ -1,9 +1,12 @@
-import { NgModule, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms'
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { FormDebugComponent } from './form-debug/form-debug.component';
 import { CampoControlErrorComponent } from './campo-control-error/campo-control-error.component';
+import { DropdownService } from './services/dropdown.service';
+import { ConsultaCepService } from './services/consulta-cep.service';
 
 
 
@@ -16,7 +19,13 @@ import { CampoControlErrorComponent } from './campo-control-error/campo-control-
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule
   ],
+  exports: [
+    FormDebugComponent,
+    CampoControlErrorComponent
+  ],
+  providers: [DropdownService, ConsultaCepService],
   // schemas: [
   //   CUSTOM_ELEMENTS_SCHEMA,
   //   NO_ERRORS_SCHEMA
