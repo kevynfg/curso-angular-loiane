@@ -1,0 +1,9 @@
+{
+  "eslint.format.enable": true,
+  "eslint.codeAction.showDocumentation": {
+    "indent": ["error", 2],
+    "skipStrings": true,
+    "skipBlankLines": true,
+    "enable": true
+  }
+}
