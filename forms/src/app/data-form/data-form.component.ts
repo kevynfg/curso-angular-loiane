@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { StatesBr } from '../shared/models/states';
 import { ConsultaCepService } from '../shared/services/consulta-cep.service';
 import { DropdownService } from '../shared/services/dropdown.service';
@@ -13,7 +14,7 @@ import { DropdownService } from '../shared/services/dropdown.service';
 export class DataFormComponent implements OnInit {
 
   useformGroup!: FormGroup;
-  states!: StatesBr[];
+  states!: Observable<StatesBr[]>;
 
   constructor(private formBuilder: FormBuilder,
               private http: HttpClient,
@@ -21,8 +22,11 @@ export class DataFormComponent implements OnInit {
               private cepService: ConsultaCepService) { }
   ngOnInit(): void {
 
-    this.dropdownService.getBrazilStates()
-    .then((item: object) => console.log(item));
+    this.states = this.dropdownService.getBrazilStates();
+
+    // this.dropdownService.getBrazilStates()
+    // .then((item: any) => this.states = item);
+
     // this.formGroup = new FormGroup({
     //   name: new FormControl(null),
     //   password: new FormControl(null),
@@ -139,4 +143,5 @@ export class DataFormComponent implements OnInit {
       }
     });
   }
+
 }

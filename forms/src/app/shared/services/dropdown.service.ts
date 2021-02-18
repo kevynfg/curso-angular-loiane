@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -9,7 +10,7 @@ export class DropdownService {
 
 constructor(private http: HttpClient) { }
 
-getBrazilStates(): Promise<object>{
+getBrazilStates(): any{
     return this.http.get('assets/states.json')
     .toPromise();
   }
