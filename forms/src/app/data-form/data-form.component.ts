@@ -15,6 +15,8 @@ export class DataFormComponent implements OnInit {
 
   useformGroup!: FormGroup;
   states!: Observable<StatesBr[]>;
+  roles!: any[];
+  technologies!: any[];
 
   constructor(private formBuilder: FormBuilder,
               private http: HttpClient,
@@ -23,7 +25,8 @@ export class DataFormComponent implements OnInit {
   ngOnInit(): void {
 
     this.states = this.dropdownService.getBrazilStates();
-
+    this.roles = this.dropdownService.getRoles();
+    this.technologies = this.dropdownService.getTechnologies();
     // this.dropdownService.getBrazilStates()
     // .then((item: any) => this.states = item);
 
@@ -46,7 +49,9 @@ export class DataFormComponent implements OnInit {
         bairro: [null, Validators.required],
         cidade: [null, Validators.required],
         estado: [null, Validators.required]
-      })
+      }),
+      role: [null],
+      technologies: [null]
     });
   }
 
@@ -142,6 +147,19 @@ export class DataFormComponent implements OnInit {
         estado: null
       }
     });
+  }
+
+  setRole(): any {
+    const role = {name: 'Dev', level: 'Junior', desc: 'Dev Jr'};
+    this.useformGroup.get('role')?.setValue(role);
+  }
+
+  setTechnology(): any {
+    this.useformGroup.get('technologies')?.setValue(['java', 'javascript', 'php']);
+  }
+
+  compareRoles(role1: any, role2: any): boolean | any{
+    return role1 && role2 ? (role1.name === role2.name && role1.level === role2.level) : role1 === role2;
   }
 
 }

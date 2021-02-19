@@ -106,7 +106,7 @@
     <div class="col-md-3" [ngClass]="applyCssError('endereco.estado')">
       <label for="estado" class="control-label">Estado</label>
       <select type="text" class="form-control" id="estado" formControlName="estado">
-        <option *ngFor="let state of states | async " [value]="state.sigla">
+        <option *ngFor="let state of states | async" [value]="state.sigla">
           {{state.nome}}
         </option>
       </select>
@@ -118,11 +118,37 @@
   </div>
 </div>
 
+<div class="form-group">
+  <div class="col-md-3" [ngClass]="applyCssError('endereco.role')">
+    <label for="role" class="control-label">Cargo</label>
+    <select type="text" class="form-control" id="role" formControlName="role" [compareWith]="compareRoles">
+      <option *ngFor="let role of roles" [ngValue]="role">
+        {{role.desc}}
+      </option>
+    </select>
+    </div>
+
+    <div class="col-md-3" [ngClass]="applyCssError('endereco.technologies')">
+      <label for="technologies" class="control-label">Tecnologia</label>
+      <select multiple type="text" class="form-control" id="technologies" formControlName="technologies" >
+        <option *ngFor="let tech of technologies" [ngValue]="tech.name">
+          {{tech.desc}}
+        </option>
+      </select>
+      </div>
+</div>
+
 <button type="submit" class="btn btn-primary">
   Submit
 </button>
 <button type="submit" class="btn btn-primary" (click)="reset()">
   Cancelar
+</button>
+<button type="submit" class="btn btn-info" (click)="setRole()">
+  Cargo
+</button>
+<button type="submit" class="btn btn-info" (click)="setTechnology()">
+  Tecnologia
 </button>
 <p>
   Form Status: {{useformGroup.value | json}}
