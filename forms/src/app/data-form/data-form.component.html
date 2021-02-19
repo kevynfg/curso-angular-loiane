@@ -26,8 +26,23 @@
         id="email" placeholder="name@email.com" >
         <div>
         <app-campo-control-error
-        [showError]="verifyInvalidEmail()"
-       errorMessage="E-mail inváldo.">
+        [showError]="verifyValidTouched('email')"
+       errorMessage="E-mail inválido.">
+        </app-campo-control-error>
+        </div>
+      </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-12">
+      <label for="confirmEmail" class="control-label">Confirmar E-mail</label>
+    </div>
+    <div class="col-sm-12">
+      <input type="email" class="form-control" formControlName="confirmEmail"
+        id="confirmEmail" placeholder="name@confirmEmail.com" >
+        <div>
+        <app-campo-control-error
+        [showError]="useformGroup.get('confirmEmail')!.hasError('equalsTo')"
+       errorMessage="E-mails não são iguais.">
         </app-campo-control-error>
         </div>
       </div>
@@ -41,8 +56,8 @@
       (blur)="findCEP('endereco.cep')">
       <div>
       <app-campo-control-error
-        [showError]="verifyValidTouched('endereco.cep')"
-        errorMessage="CEP é obrigatório.">
+        [showError]="verifyRequired('endereco.cep')"
+        errorMessage="CEP inválido.">
       </app-campo-control-error>
       </div>
     </div>
@@ -164,11 +179,15 @@
     <label for="frameworks">Frameworks</label>
     <div class="row" id="frameworks">
       <div class="checkbox" class="col-sm-5" formArrayName="frameworks"
-      *ngFor="let item of useformGroup.get('frameworks')!.value;let i = index">
+        *ngFor="let item of useformGroup.get('frameworks')!.value;let i = index">
         <label class="checkbox-inline">
           <input type="checkbox" [formControlName]="i"> {{frameworks[i]}}
         </label>
       </div>
+      <app-campo-control-error
+          [showError]="!useformGroup.get('frameworks')!.valid"
+          errorMessage="Selecione uma opção.">
+      </app-campo-control-error>
     </div>
   </div>
 </div>
