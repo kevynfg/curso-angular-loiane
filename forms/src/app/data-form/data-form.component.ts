@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+import {map} from 'rxjs/operators';
 import { StatesBr } from '../shared/models/states';
 import { ConsultaCepService } from '../shared/services/consulta-cep.service';
 import { DropdownService } from '../shared/services/dropdown.service';
@@ -17,6 +18,9 @@ export class DataFormComponent implements OnInit {
   states!: Observable<StatesBr[]>;
   roles!: any[];
   technologies!: any[];
+  newsletterOption!: any[];
+
+  frameworks = ['Angular', 'React', 'Vue', 'Svelt'];
 
   constructor(private formBuilder: FormBuilder,
               private http: HttpClient,
@@ -27,6 +31,7 @@ export class DataFormComponent implements OnInit {
     this.states = this.dropdownService.getBrazilStates();
     this.roles = this.dropdownService.getRoles();
     this.technologies = this.dropdownService.getTechnologies();
+    this.newsletterOption = this.dropdownService.getNewsLetter();
     // this.dropdownService.getBrazilStates()
     // .then((item: any) => this.states = item);
 
@@ -51,13 +56,37 @@ export class DataFormComponent implements OnInit {
         estado: [null, Validators.required]
       }),
       role: [null],
-      technologies: [null]
+      technologies: [null],
+      newsletter: ['s'],
+      terms: [null, Validators.pattern('true')],
+      frameworks: this.buildFrameworks()
     });
   }
 
+  buildFrameworks(): any{
+    const values = this.frameworks.map(v => new FormControl(false));
+    return this.formBuilder.array(values);
+
+    // Método abaixo não é dinâmico
+    // return [
+    //   new FormControl(false),
+    //   new FormControl(false),
+    //   new FormControl(false),
+    //   new FormControl(false),
+    // ];
+  }
+
+  // tslint:disable-next-line:max-line-length
   onSubmit(): void {
+    let valueSubmit = Object.assign({}, this.useformGroup.value);
+    valueSubmit = Object.assign(valueSubmit, {
+      frameworks: valueSubmit.frameworks.map((value: any, index: any) => value ? this.frameworks[index] : null)
+      .filter((value: any) => value !== null)
+    });
+
+    console.log(valueSubmit);
     if (this.useformGroup.valid){
-      this.http.post('https://httpbin.org/post', JSON.stringify(this.useformGroup.value))
+      this.http.post('https://httpbin.org/post', JSON.stringify(valueSubmit))
       .subscribe(dados => {
         console.log(dados);
         // reseta o form

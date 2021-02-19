@@ -1,5 +1,5 @@
 <form class="form-horizontal" [formGroup]="useformGroup" (ngSubmit)="onSubmit()">
-  <div class="form-group" [ngClass]="applyCssError('name')">
+  <div class="form-group row" [ngClass]="applyCssError('name')">
 
     <div class="col-sm-12">
       <label for="name" class="control-label">Name</label>
@@ -17,7 +17,7 @@
       </div>
   </div>
 
-  <div class="form-group">
+  <div class="form-group row">
     <div class="col-sm-12">
       <label for="email" class="control-label">Email</label>
     </div>
@@ -34,7 +34,7 @@
   </div>
 
 <div formGroupName="endereco">
-  <div class="form-group">
+  <div class="form-group row">
     <div class="col-md-3" [ngClass]="applyCssError('endereco.cep')">
       <label for="cep" class="control-label">CEP</label>
       <input type="text" class="form-control" id="cep" formControlName="cep"
@@ -64,7 +64,7 @@
     </div>
   </div>
 
-  <div class="form-group" [ngClass]="applyCssError('endereco.rua')">
+  <div class="form-group row" [ngClass]="applyCssError('endereco.rua')">
     <div class="col-sm-12">
       <label for="rua" class="control-label">Rua</label>
     </div>
@@ -80,7 +80,7 @@
       </div>
   </div>
 
-  <div class="form-group">
+  <div class="form-group row">
     <div class="col-md-5" [ngClass]="applyCssError('endereco.bairro')">
       <label for="bairro" class="control-label">Bairro</label>
       <input type="text" class="form-control" id="bairro" formControlName="bairro">
@@ -118,7 +118,7 @@
   </div>
 </div>
 
-<div class="form-group">
+<div class="form-group row">
   <div class="col-md-3" [ngClass]="applyCssError('endereco.role')">
     <label for="role" class="control-label">Cargo</label>
     <select type="text" class="form-control" id="role" formControlName="role" [compareWith]="compareRoles">
@@ -135,21 +135,63 @@
           {{tech.desc}}
         </option>
       </select>
+    </div>
+
+    <div class="col-md-3" [ngClass]="applyCssError('newsletter')">
+      <label for="newsletter" class="control-label">Newsletter</label>
+      <div id="newsletter" class="row">
+        <div class="col-sm-4" *ngFor="let item of newsletterOption">
+          <label class="radio-inline">
+            <input type="radio" [value]="item.value" formControlName="newsletter"> {{item.desc}}
+          </label>
+        </div>
       </div>
+    </div>
 </div>
 
-<button type="submit" class="btn btn-primary">
-  Submit
-</button>
-<button type="submit" class="btn btn-primary" (click)="reset()">
-  Cancelar
-</button>
-<button type="submit" class="btn btn-info" (click)="setRole()">
-  Cargo
-</button>
-<button type="submit" class="btn btn-info" (click)="setTechnology()">
-  Tecnologia
-</button>
+<div class="form-grou row">
+  <div class="col-md-3" [ngClass]="applyCssError('terms')">
+    <div class="checkbox">
+      <input type="checkbox" formControlname="terms" class="checkbox"> Aceito os termos.
+      <app-campo-control-error
+          [showError]="verifyValidTouched('terms')"
+          errorMessage="Por favor aceite os termos.">
+        </app-campo-control-error>
+    </div>
+  </div>
+
+  <div class="col-md-3" [ngClass]="applyCssError('frameworks')">
+    <label for="frameworks">Frameworks</label>
+    <div class="row" id="frameworks">
+      <div class="checkbox" class="col-sm-5" formArrayName="frameworks"
+      *ngFor="let item of useformGroup.get('frameworks')!.value;let i = index">
+        <label class="checkbox-inline">
+          <input type="checkbox" [formControlName]="i"> {{frameworks[i]}}
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<div class="container">
+  <button type="submit" class="btn btn-primary">
+    Submit
+  </button>
+  <button type="submit" class="btn btn-primary" (click)="reset()">
+    Cancelar
+  </button>
+  <button type="submit" class="btn btn-info" (click)="setRole()">
+    Cargo
+  </button>
+  <button type="submit" class="btn btn-info" (click)="setTechnology()">
+    Tecnologia
+  </button>
+</div>
+
+<br>
+
 <p>
   Form Status: {{useformGroup.value | json}}
 </p>

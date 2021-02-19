@@ -1,10 +1,14 @@
 {
   "eslint.format.enable": true,
   "eslint.codeAction.showDocumentation": {
-    "indent": ["error", 2],
+    "indent": ["true", "spaces", 4],
     "skipStrings": true,
     "skipBlankLines": true,
     "enable": true
   },
-  "eslint.trace.server": null
+  "eslint.trace.server": null,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.validate": ["javascript"]
 }

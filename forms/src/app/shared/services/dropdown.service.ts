@@ -31,4 +31,11 @@ getBrazilStates(): any{
     return this.http.get('assets/states.json')
     .toPromise();
   }
+
+  getNewsLetter(): any{
+    return [
+      {value: 's', desc: 'Sim'},
+      {value: 'n', desc: 'Não'}
+    ]
+  }
 }
