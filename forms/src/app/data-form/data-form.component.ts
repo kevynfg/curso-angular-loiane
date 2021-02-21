@@ -1,8 +1,9 @@
+import { map } from 'rxjs/operators';
+import { VerifyEmailService } from './services/verify-email.service';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import {map} from 'rxjs/operators';
 import { FormValidations } from '../shared/form-validation';
 import { StatesBr } from '../shared/models/states';
 import { ConsultaCepService } from '../shared/services/consulta-cep.service';
@@ -26,11 +27,15 @@ export class DataFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private http: HttpClient,
               private dropdownService: DropdownService,
-              private cepService: ConsultaCepService) { }
+              private cepService: ConsultaCepService,
+              private verifyEmailService: VerifyEmailService) { }
   ngOnInit(): void {
+
+    // this.verifyEmailService.verifyEmail('email@email.com').subscribe();
 
     this.states = this.dropdownService.getBrazilStates();
     this.roles = this.dropdownService.getRoles();
+
     this.technologies = this.dropdownService.getTechnologies();
     this.newsletterOption = this.dropdownService.getNewsLetter();
     // this.dropdownService.getBrazilStates()
@@ -46,7 +51,7 @@ export class DataFormComponent implements OnInit {
         [Validators.required,
          Validators.minLength(3),
           Validators.maxLength(20)]],
-      email: [null, [Validators.required, Validators.email]],
+      email: [null, [Validators.required, Validators.email], [this.validateEmail.bind(this)]],
       confirmEmail: [null, [FormValidations.equalsTo('email')]],
       endereco: this.formBuilder.group({
         cep: [null, Validators.required, FormValidations.cepValidator],
@@ -77,6 +82,7 @@ export class DataFormComponent implements OnInit {
     //   new FormControl(false),
     // ];
   }
+
   // tslint:disable-next-line:max-line-length
   onSubmit(): void {
     let valueSubmit = Object.assign({}, this.useformGroup.value);
@@ -196,6 +202,11 @@ export class DataFormComponent implements OnInit {
 
   compareRoles(role1: any, role2: any): boolean | any{
     return role1 && role2 ? (role1.name === role2.name && role1.level === role2.level) : role1 === role2;
+  }
+
+  validateEmail(formControl: FormControl) {
+    return this.verifyEmailService.verifyEmail(formControl.value)
+      .pipe(map((emailExists) => emailExists ? {emailInvalido: true} : null))
   }
 
 }

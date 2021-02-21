@@ -27,7 +27,23 @@
         <div>
         <app-campo-control-error
         [showError]="verifyValidTouched('email')"
+       errorMessage="E-mail é obrigatório.">
+        </app-campo-control-error>
+        <app-campo-control-error
+        [showError]="verifyInvalidEmail()"
        errorMessage="E-mail inválido.">
+        </app-campo-control-error>
+        <app-campo-control-error
+        [showError]="useformGroup.get('email')?.status === 'PENDING'"
+       errorMessage="Validando E-mail...">
+        </app-campo-control-error>
+        <app-campo-control-error style="background-color: green;"
+        [showError]="useformGroup.get('email')?.status === 'VALID'"
+       errorMessage="E-mail válido">
+        </app-campo-control-error>
+        <app-campo-control-error
+        [showError]="useformGroup.get('email')?.hasError('emailInvalido')"
+       errorMessage="E-mail já cadastrado!">
         </app-campo-control-error>
         </div>
       </div>
