@@ -1,5 +1,6 @@
+import { City } from './../shared/models/cities';
 import { BaseFormComponent } from './../shared/base-form/base-form.component';
-import { Component, OnInit, NO_ERRORS_SCHEMA } from '@angular/core';
+import { Component, OnInit, NO_ERRORS_SCHEMA, Pipe } from '@angular/core';
 
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { VerifyEmailService } from './services/verify-email.service';
@@ -21,6 +22,7 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
 
   // useformGroup!: FormGroup;
   states!: Observable<StatesBr[]>;
+  cities!: City[];
   roles!: any[];
   technologies!: any[];
   newsletterOption!: any[];
@@ -38,7 +40,8 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
 
     // this.verifyEmailService.verifyEmail('email@email.com').subscribe();
 
-    this.states = this.dropdownService.getBrazilStates();
+    // this.states = this.dropdownService.getBrazilStates();
+    this.dropdownService.getBrazilStates().subscribe((dados: any) => this.states = dados);
     this.roles = this.dropdownService.getRoles();
 
     this.technologies = this.dropdownService.getTechnologies();
@@ -80,7 +83,19 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
       tap(value => console.log(value)),
       switchMap(status => status === 'VALID' ? this.cepService.findCEP(this.useformGroup.get('endereco.cep')?.value) : empty())
       )
-    .subscribe(value => value ? this.fillDataFields(value) : {})
+    .subscribe(value => value ? this.fillDataFields(value) : {});
+
+    this.useformGroup.get('endereco.estado')?.valueChanges
+    .pipe(
+      switchMap(sigla => this.states.pipe(
+        map(estados => estados.filter(estado => estado.sigla === sigla)),
+        map(estados => estados[0].id),
+        switchMap(id => this.dropdownService.getCities(id).pipe(
+          map((cidades: City[]) => this.cities = cidades)
+        ))
+      ))
+    )
+    .subscribe();
   }
 
   buildFrameworks(){
@@ -104,7 +119,7 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
     });
     console.log(valueSubmit);
 
-    this.http.post('https://httpbin.org/post', JSON.stringify({}))
+    this.http.post('https://httpbin.org/post', JSON.stringify(valueSubmit))
       .subscribe(dados => {
         console.log(dados);
         // reseta o form
@@ -140,6 +155,8 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
       this.cepService.findCEP(cep)
       .then((dados: any) => this.fillDataFields(dados));
     }
+
+    this.dropdownService.getCities(8).subscribe(console.log)
   }
 
   resetDataForm(): void {

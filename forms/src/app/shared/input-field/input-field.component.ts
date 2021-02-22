@@ -24,13 +24,14 @@ export class InputFieldComponent implements ControlValueAccessor {
 
   private innerValue!: any;
 
+  // tslint:disable-next-line: typedef
   get value() {
     return this.innerValue;
   }
 
   set value(value: any) {
     if (value !== this.innerValue) {
-      this.value = value;
+      this.innerValue = value;
       this.onChangeCallback(value);
     }
   }
@@ -47,7 +48,7 @@ export class InputFieldComponent implements ControlValueAccessor {
 
   writeValue(value: any): void {
     if (value !== this.innerValue) {
-      this.value = value;
+      this.innerValue = value;
       this.onChangeCallback(value);
     }
   }
@@ -61,6 +62,7 @@ export class InputFieldComponent implements ControlValueAccessor {
     this.isReadOnly = !!isDisabled;
   }
 
+  // tslint:disable-next-line: use-lifecycle-interface
   ngOnInit(): void {
   }
 

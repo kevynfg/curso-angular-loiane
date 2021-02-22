@@ -1,27 +1,8 @@
-Skip to content
-loiane
-/
-curso-angular
-Code
-Issues
-6
-Pull requests
-7
-Actions
-Security
-Insights
-curso-angular/forms/src/app/data-form/data-form.component.html
-@loiane
-loiane fixed angular v9 error
- History
- 1 contributor
-199 lines (174 sloc)  9.4 KB
-
 <form class="form-horizontal" [formGroup]="useformGroup" (ngSubmit)="onSubmit()">
 
-  <app-input-field class="col-sm-12" formControlName="nome"
-    [classeCss]="applyCssError('nome')"
-    id="nome" label="Nome" [control]="useformGroup.get('nome')"
+  <app-input-field class="col-sm-12" formControlName="name"
+    [classCss]="applyCssError('name')"
+    id="name" label="Nome" [control]="useformGroup.get('name')"
   ></app-input-field>
 
   <!--div class="form-group" [ngClass]="applyCssError('nome')">
@@ -45,10 +26,10 @@ loiane fixed angular v9 error
       </app-campo-control-erro>
       <app-campo-control-erro [mostrarErro]="verificaEmailInvalido()" msgErro="Email inválido.">
       </app-campo-control-erro -->
-      <app-campo-control-erro [mostrarErro]="useformGroup.get('email').status === 'PENDING'"
+      <app-campo-control-erro [mostrarErro]="useformGroup.get('email')?.status === 'PENDING'"
         msgErro="Validando email...">
       </app-campo-control-erro>
-      <app-campo-control-erro [mostrarErro]="useformGroup.get('email').status === 'VALID'"
+      <app-campo-control-erro [mostrarErro]="useformGroup.get('email')?.status === 'VALID'"
         msgErro="Email válido!">
       </app-campo-control-erro>
       <!--app-campo-control-erro [mostrarErro]="useformGroup.get('email').hasError('emailInvalido')"
@@ -57,13 +38,13 @@ loiane fixed angular v9 error
     </div>
   </div>
 
-  <div class="form-group" [ngClass]="applyCssError('confirmarEmail')">
+  <div class="form-group" [ngClass]="applyCssError('confirmEmail')">
     <div class="col-sm-12">
-      <label for="confirmarEmail" class="control-label">Confirmar Email</label>
+      <label for="confirmEmail" class="control-label">Confirmar Email</label>
     </div>
     <div class="col-sm-12">
-      <input type="confirmarEmail" class="form-control" formControlName="confirmarEmail" id="confirmarEmail" placeholder="nome@email.com">
-      <app-error-msg [control]="useformGroup.get('confirmarEmail')" label="Confirmar Email"></app-error-msg>
+      <input type="confirmEmail" class="form-control" formControlName="confirmEmail" id="confirmEmail" placeholder="nome@email.com">
+      <app-error-msg [control]="useformGroup.get('confirmEmail')" label="Confirmar Email"></app-error-msg>
       <!--app-campo-control-erro [mostrarErro]="useformGroup.get('confirmarEmail').hasError('equalsTo')"
         msgErro="Emails não são iguais.">
       </app-campo-control-erro -->
@@ -123,7 +104,7 @@ loiane fixed angular v9 error
       <div class="col-md-4" [ngClass]="applyCssError('endereco.cidade')">
         <label for="cidade" class="control-label">Cidade</label>
         <select class="form-control" id="cidade" formControlName="cidade">
-          <option *ngFor="let cidade of cidades" [value]="cidade.nome">{{ cidade.nome }}</option>
+          <option *ngFor="let cidade of cities" [value]="cidade.nome">{{ cidade.nome }}</option>
         </select>
         <app-error-msg [control]="useformGroup.get('endereco.cidade')" label="Cidade"></app-error-msg>
         <!--app-campo-control-erro [mostrarErro]="verificaValidTouched('endereco.estado')" msgErro="Estado é obrigatório.">
@@ -139,9 +120,9 @@ loiane fixed angular v9 error
       <!--/div -->
 
       <div class="col-md-3" [ngClass]="applyCssError('endereco.estado')">
-        <label for="estado" class="control-label">Estado</label>
-        <select class="form-control" id="estado" formControlName="estado">
-          <option *ngFor="let estado of estados" [value]="estado.sigla">{{ estado.nome }}</option>
+        <label for="states" class="control-label">Estado</label>
+        <select class="form-control" id="states" formControlName="estado">
+          <option *ngFor="let estado in states" [value]="estado.sigla">{{ estado.nome }}</option>
         </select>
         <app-error-msg [control]="useformGroup.get('endereco.estado')" label="Estado"></app-error-msg>
         <!--app-campo-control-erro [mostrarErro]="verificaValidTouched('endereco.estado')" msgErro="Estado é obrigatório.">
@@ -152,24 +133,24 @@ loiane fixed angular v9 error
   </div>
 
   <div class="form-group">
-    <div class="col-md-4" [ngClass]="applyCssError('cargo')">
-      <label for="cargo" class="control-label">Cargo</label>
-      <select class="form-control" id="cargo" formControlName="cargo" [compareWith]="compararCargos">
-        <option *ngFor="let cargo of cargos" [ngValue]="cargo">{{ cargo.desc }}</option>
+    <div class="col-md-4" [ngClass]="applyCssError('role')">
+      <label for="role" class="control-label">Cargo</label>
+      <select class="form-control" id="role" formControlName="role" [compareWith]="compareRoles">
+        <option *ngFor="let role of roles" [ngValue]="role">{{ role.desc }}</option>
       </select>
     </div>
 
-    <div class="col-md-4" [ngClass]="applyCssError('tecnologias')">
-      <label for="tecnologias" class="control-label">Tecnologias</label>
-      <select multiple class="form-control" id="tecnologias" formControlName="tecnologias">
-        <option *ngFor="let tecnologia of tecnologias" [value]="tecnologia.nome">{{ tecnologia.desc }}</option>
+    <div class="col-md-4" [ngClass]="applyCssError('technologies')">
+      <label for="technologies" class="control-label">Tecnologias</label>
+      <select multiple class="form-control" id="technologies" formControlName="technologies">
+        <option *ngFor="let tecnologia of technologies" [value]="tecnologia.nome">{{ tecnologia.desc }}</option>
       </select>
     </div>
 
     <div class="col-md-3" [ngClass]="applyCssError('newsletter')">
       <label for="newsletter" class="control-label">Newsletter</label>
       <div id="newsletter" class="row">
-        <div class="col-sm-4" *ngFor="let item of newsletterOp">
+        <div class="col-sm-4" *ngFor="let item of newsletterOption">
           <label class="radio-inline">
             <input type="radio" [value]="item.valor" formControlName="newsletter" /> {{ item.desc }}
           </label>
@@ -196,7 +177,7 @@ loiane fixed angular v9 error
       <div id="frameworks" class="row">
         <div class="checkbox" class="col-sm-4"
           formArrayName="frameworks"
-          *ngFor="let item of getFrameworksControls(); let i = index" >
+          *ngFor="let item of frameworks; let i = index" >
           <label class="checkbox-inline">
             <input type="checkbox" [formControlName]="i"> {{ frameworks[i] }}
           </label>
@@ -210,9 +191,9 @@ loiane fixed angular v9 error
   </div>
 
   <button type="submit" class="btn btn-primary">Submit</button>
-  <button class="btn btn-default" (click)="resetar()">Cancelar</button>
-  <button class="btn btn-info" (click)="setarCargo()">Cargo</button>
-  <button class="btn btn-info" (click)="setarTecnologias()">Tecnologias</button>
+  <button class="btn btn-default" (click)="reset()">Cancelar</button>
+  <button class="btn btn-info" (click)="setRole()">Cargo</button>
+  <button class="btn btn-info" (click)="setTechnology()">Tecnologias</button>
 
   <app-form-debug [form]="useformGroup"></app-form-debug>
 </form>
