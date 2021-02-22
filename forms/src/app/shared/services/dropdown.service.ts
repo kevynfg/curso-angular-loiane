@@ -28,7 +28,7 @@ getTechnologies(): Array<object> {
 }
 
 getBrazilStates(): any{
-    return this.http.get('assets/states.json')
+    return this.http.get('assets/dados/states.json')
     .toPromise();
   }
 

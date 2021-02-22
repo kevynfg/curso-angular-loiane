@@ -1,9 +1,11 @@
-import { map } from 'rxjs/operators';
+import { BaseFormComponent } from './../shared/base-form/base-form.component';
+import { Component, OnInit, NO_ERRORS_SCHEMA } from '@angular/core';
+
+import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { VerifyEmailService } from './services/verify-email.service';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { empty, Observable } from 'rxjs';
 import { FormValidations } from '../shared/form-validation';
 import { StatesBr } from '../shared/models/states';
 import { ConsultaCepService } from '../shared/services/consulta-cep.service';
@@ -14,9 +16,10 @@ import { DropdownService } from '../shared/services/dropdown.service';
   templateUrl: './data-form.component.html',
   styleUrls: ['./data-form.component.css']
 })
-export class DataFormComponent implements OnInit {
+export class DataFormComponent extends BaseFormComponent implements OnInit {
 
-  useformGroup!: FormGroup;
+
+  // useformGroup!: FormGroup;
   states!: Observable<StatesBr[]>;
   roles!: any[];
   technologies!: any[];
@@ -28,7 +31,9 @@ export class DataFormComponent implements OnInit {
               private http: HttpClient,
               private dropdownService: DropdownService,
               private cepService: ConsultaCepService,
-              private verifyEmailService: VerifyEmailService) { }
+              private verifyEmailService: VerifyEmailService) {
+                super();
+               }
   ngOnInit(): void {
 
     // this.verifyEmailService.verifyEmail('email@email.com').subscribe();
@@ -50,7 +55,7 @@ export class DataFormComponent implements OnInit {
       name: [null,
         [Validators.required,
          Validators.minLength(3),
-          Validators.maxLength(20)]],
+          Validators.maxLength(35)]],
       email: [null, [Validators.required, Validators.email], [this.validateEmail.bind(this)]],
       confirmEmail: [null, [FormValidations.equalsTo('email')]],
       endereco: this.formBuilder.group({
@@ -68,6 +73,14 @@ export class DataFormComponent implements OnInit {
       terms: [null, Validators.pattern('true')],
       frameworks: this.buildFrameworks()
     });
+
+    this.useformGroup.get('endereco.cep')?.statusChanges
+    .pipe(
+      distinctUntilChanged(),
+      tap(value => console.log(value)),
+      switchMap(status => status === 'VALID' ? this.cepService.findCEP(this.useformGroup.get('endereco.cep')?.value) : empty())
+      )
+    .subscribe(value => value ? this.fillDataFields(value) : {})
   }
 
   buildFrameworks(){
@@ -83,17 +96,15 @@ export class DataFormComponent implements OnInit {
     // ];
   }
 
-  // tslint:disable-next-line:max-line-length
-  onSubmit(): void {
+  submit() {
     let valueSubmit = Object.assign({}, this.useformGroup.value);
     valueSubmit = Object.assign(valueSubmit, {
       frameworks: valueSubmit.frameworks.map((value: any, index: any) => value ? this.frameworks[index] : null)
       .filter((value: any) => value !== null)
     });
-
     console.log(valueSubmit);
-    if (this.useformGroup.valid){
-      this.http.post('https://httpbin.org/post', JSON.stringify(valueSubmit))
+
+    this.http.post('https://httpbin.org/post', JSON.stringify({}))
       .subscribe(dados => {
         console.log(dados);
         // reseta o form
@@ -102,55 +113,7 @@ export class DataFormComponent implements OnInit {
         alert('Deu ruim!!');
         console.log(error);
       });
-    } else {
-      console.log('did not submit');
-      this.verifyFormValidations(this.useformGroup);
-    }
-  }
 
-  verifyFormValidations(form: FormGroup): void {
-    Object.keys(form.controls)
-      .forEach((formField) => {
-        const control = form.get(formField);
-        control?.markAsDirty();
-        console.log('Dentro da raíz do form', control);
-        if (control instanceof FormGroup) {
-          // Essa recursividade é para percorrer todos os campos do form
-          // até dentro de aninhamentos que tem um objeto dentro de outro objeto
-          this.verifyFormValidations(control);
-          console.log('Entrou em endereço', control);
-        }
-      });
-  }
-
-  reset(): void {
-    this.useformGroup.reset();
-  }
-
-  applyCssError(element: string): boolean | any {
-    return {
-      'has-error': this.verifyValidTouched(element),
-      'has-feedback': this.verifyValidTouched(element)
-    };
-  }
-
-  verifyValidTouched(element: string): boolean | any {
-    return this.useformGroup.get(element)?.valid &&
-     this.useformGroup.get(element)?.touched ||
-      this.useformGroup.get(element)?.dirty;
-  }
-
-  verifyRequired(element: string): boolean | any {
-    return this.useformGroup.get(element)?.hasError('required') &&
-     (this.useformGroup.get(element)?.touched ||
-      this.useformGroup.get(element)?.dirty);
-  }
-
-  verifyInvalidEmail(): boolean | any{
-    const emailElement = this.useformGroup.get('email');
-    if (emailElement?.errors){
-      return emailElement.errors['email'] && emailElement.touched;
-    }
   }
 
   fillDataFields(data: any): any{
